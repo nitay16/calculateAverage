@@ -11,12 +11,18 @@ namespace BestMean.ViewModels
     
     public class systemViewModel:Screen
     {
+        //"_selectedStude field for the drop down list when i choose a student
         private Student _selectedStudent;
+        // the next variable is a collection of students variable that needs to "binded" with our GUI window
         private BindableCollection<Student> _students = new BindableCollection<Student>();
-        private double _mean;
+        private double _avg;
+        //variable the contains a list of the best average courses for _avg variable
+        private List<string> _bestAverageCourses;
 
+        /*In this constructior we intialize students and courses list and add them with the function of "Students"*/
         public systemViewModel()
         {
+
             List<Courses>  course_jonatan= new List<Courses>();
             course_jonatan.Add(new Courses { Id = "1", Course_name = "Hedva 1 ", Course_points = "4", Course_score = 89 });
             course_jonatan.Add(new Courses { Id = "2", Course_name = "Physics 1 ", Course_points = "4", Course_score = 78 });
@@ -25,28 +31,28 @@ namespace BestMean.ViewModels
             course_jonatan.Add(new Courses { Id = "5", Course_name = "OOP ", Course_points = "2", Course_score = 70 });
             course_jonatan.Add(new Courses { Id = "6", Course_name = "Advanced programming ", Course_points = "3", Course_score = 74 });
             course_jonatan.Add(new Courses { Id = "7", Course_name = "table tennis", Course_points = "1", Course_score = 87 });
-            //******************************************************************************************************************
+            //****************************************************************************************************************************8
             List<Courses> course_david = new List<Courses>();
 
             course_david.Add(new Courses { Id = "1", Course_name = "Hedva 1 ", Course_points = "4", Course_score = 98 });
             course_david.Add(new Courses { Id = "2", Course_name = "Physics 1 ", Course_points = "4", Course_score = 76 });
             course_david.Add(new Courses { Id = "3", Course_name = "Introduction to control ", Course_points = "2", Course_score = 90 });
-            course_david.Add(new Courses { Id = "4", Course_name = "Introduction to programming ", Course_points = "2", Course_score = 77 });
+            course_david.Add(new Courses { Id = "4", Course_name = "Introduction to programming ", Course_points = "2", Course_score = 100 });
             course_david.Add(new Courses { Id = "5", Course_name = "OOP ", Course_points = "2", Course_score = 70 });
             course_david.Add(new Courses { Id = "6", Course_name = "Advanced programming ", Course_points = "3", Course_score = 74 });
             course_david.Add(new Courses { Id = "7", Course_name = "table tennis", Course_points = "1", Course_score = 87 });
 
-            Students.Add(new Student { id = "1", First_name = "Jonatan", Last_name = "Elkabethz", cources = course_jonatan });
-            Students.Add(new Student { id = "2", First_name = "david", Last_name = "Elkabethz", cources = course_david });
-
-            
+            Students.Add(new Student { id = "1", First_name = "Jonatan", Last_name = "Elkabethz", courses = course_jonatan });
+            Students.Add(new Student { id = "2", First_name = "david", Last_name = "Elkabethz", courses = course_david });
         }
+        //this function does get and sets for the _students variable
         public BindableCollection<Student> Students
         {
             get { return _students; }
             set { _students = value; }
         }
-       
+
+        //this function does get and sets for the _selected student variable
 
         public Student SelectedStudent
         {
@@ -58,25 +64,42 @@ namespace BestMean.ViewModels
 
             }
         }
-        public double Mean
+        //this function does get and sets for Mean variable
+
+        public double bestAverageTen
         {
-            get { return _mean; }
+            get { return _avg; }
             set
             {
-                _mean = value;
-                NotifyOfPropertyChange(() => Mean);
+                _avg = value;
+                NotifyOfPropertyChange(() => bestAverageTen);
             }
         }
-        
+        // get best average courses
+        public List<string> BestAverageCourses
+        {
+            get { return _bestAverageCourses; }
+            set
+            {
+                _bestAverageCourses = value;
+                NotifyOfPropertyChange(() => BestAverageCourses);
+            }
+        }
+        // Internal function that ask from the seleted student object to calculte his best average from the ten points courses
         private void CalculateMean()
         {
-            if (SelectedStudent != null && SelectedStudent.cources.Count > 0)
+            if (SelectedStudent != null && SelectedStudent.courses.Count > 0)
             {
-                Mean = SelectedStudent.CalculateBestAverageForTotalPoints();
+                bestAverageTen = SelectedStudent.CalculateBestAverageForTotalPoints();
+                BestAverageCourses = SelectedStudent.GetBestAverageCourses();
+
             }
             else
             {
-                Mean = 0;
+                bestAverageTen = 0;
+                //initiallize empty list of courses
+                BestAverageCourses = new List<string>();
+
             }
         }
 
