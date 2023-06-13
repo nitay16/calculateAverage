@@ -58,7 +58,9 @@ namespace BestMean.ViewModels
         {
             get { return _selectedStudent; }
             set { _selectedStudent = value;
-                CalculateMean();
+                //call to calculte average function 
+                CalculateAverage();
+                //change the selected student in the gui window
                 NotifyOfPropertyChange(() => Students);
 
 
@@ -71,7 +73,9 @@ namespace BestMean.ViewModels
             get { return _avg; }
             set
             {
+                //set the new average value
                 _avg = value;
+                //notify when there is a change for the average. changing the average in the gui window
                 NotifyOfPropertyChange(() => bestAverageTen);
             }
         }
@@ -86,7 +90,7 @@ namespace BestMean.ViewModels
             }
         }
         // Internal function that ask from the seleted student object to calculte his best average from the ten points courses
-        private void CalculateMean()
+        private void CalculateAverage()
         {
             if (SelectedStudent != null && SelectedStudent.courses.Count > 0)
             {

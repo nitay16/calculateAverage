@@ -70,6 +70,7 @@ namespace BestMean.Models
             double maxAverage = double.MinValue;
             foreach (var combination in validCombinations)
             {
+                //call to the Calculte average function below
                 double average = CalculateAverage(combination);
                 if (average > maxAverage)
                 {
@@ -88,19 +89,21 @@ namespace BestMean.Models
             {
                 return 0;
             }
-
+            // iterate over the combination and calculates sum
             int totalScore = combination.Sum(c => c.Course_score);
             return (double)totalScore / combination.Count;
         }
-        // get list of the best courses that with them we calculated the best average with the functions above
+        // the fuction returns list of the best courses that with them we calculated the best average with the functions above
+       
         public List<string> GetBestAverageCourses()
         {
+            //get the combinations courses
             var validCombinations = GetCourseCombinationsWithTotalPoints();
             if (validCombinations.Count == 0)
             {
                 return new List<string>();
             }
-
+            // sort by descending order the return the courses for the first best average
             var bestCombination = validCombinations.OrderByDescending(c => CalculateAverage(c)).First();
             var courseNames = bestCombination.Select(c => c.Course_name).ToList();
             return courseNames;
